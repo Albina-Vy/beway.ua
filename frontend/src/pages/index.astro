@@ -1,0 +1,240 @@
+---
+import Base from '../layouts/Base.astro';
+import { opportunities } from '../data/opportunities';
+const featured = opportunities.slice(0, 3);
+---
+<Base>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div>
+      <span class="badge badge--soon"><span class="dot"></span>Готуємо перші професійні проби</span>
+      <h1>Знайди свій шлях через досвід</h1>
+      <p class="lead hero__lead">Досліджуй професії, знайомся з реальними завданнями та відкривай нові можливості для свого розвитку</p>
+      <div class="hero__btns">
+        <a class="btn btn--primary" href="/opportunities/">Дослідити професії</a>
+        <a class="btn btn--ghost" href="/partners/">Для компаній</a>
+      </div>
+      <ul class="hero__facts">
+        <li class="hero__fact"><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg>Безкоштовно для молоді</li>
+        <li class="hero__fact"><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg>Поруч із фахівцем</li>
+        <li class="hero__fact"><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg>Без зобов'язань працевлаштування</li>
+      </ul>
+    </div>
+    <div class="preview rv">
+      <div class="preview__back" aria-hidden="true"></div>
+      <article class="card-demo">
+        <div class="card-demo__top">
+          <span class="card-demo__ico" aria-hidden="true"></span>
+          <span class="badge badge--demo">Приклад напряму</span>
+        </div>
+        <p class="card-demo__title">День із QA-інженером</p>
+        <p class="muted" style="font-size:var(--t-sm)">Побачиш, як команда перевіряє продукт перед релізом, і спробуєш описати дефект за реальним сценарієм</p>
+        <div class="card-demo__meta">
+          <span class="chip">Технології</span><span class="chip">Онлайн</span><span class="chip">до 4 годин</span>
+        </div>
+        <div class="steps-mini" aria-hidden="true"><i class="is-on"></i><i class="is-on"></i><i></i><i></i><i></i></div>
+        <div class="card-demo__foot">
+          <span class="muted" style="font-size:var(--t-xs)">Напрям готується до пілоту</span>
+          <span class="btn btn--sm" aria-disabled="true">Заявка відкриється пізніше</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ПРОБЛЕМА ===== -->
+<section class="section on-dark problem">
+  <div class="wrap problem__grid">
+    <div class="rv">
+      <span class="eyebrow"><span class="dot"></span>Проблема</span>
+      <h2>Складно обрати професію, якщо не знаєш, як вона виглядає насправді</h2>
+      <p class="lead">Опис вакансії, назва спеціальності й результат тесту описують професію ззовні. Вони не показують, із чого складається звичайний робочий день, які рішення доводиться ухвалювати та що саме втомлює або навпаки затягує.</p>
+    </div>
+    <ul class="problem__list rv">
+      <li><span class="problem__num">01</span><span><b>Опис вакансії — це вимоги, а не робота</b><span class="muted" style="font-size:var(--t-sm)">Він перелічує, що потрібно вміти, але не те, чим людина займається щодня</span></span></li>
+      <li><span class="problem__num">02</span><span><b>Навчальна програма дає теорію</b><span class="muted" style="font-size:var(--t-sm)">Перше знайомство з практикою часто настає лише через кілька років навчання</span></span></li>
+      <li><span class="problem__num">03</span><span><b>Тести дають напрям, а не відчуття</b><span class="muted" style="font-size:var(--t-sm)">Результат тесту неможливо перевірити, поки не побачиш роботу зблизька</span></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== РІШЕННЯ ===== -->
+<section class="section sol">
+  <div class="wrap sol__grid">
+    <div class="sol__sticky rv">
+      <span class="eyebrow"><span class="dot"></span>Наше рішення</span>
+      <h2>Побачити професію зсередини, перш ніж її обирати</h2>
+      <p class="lead">BEWAY поєднує чотири речі, які зазвичай доводиться шукати окремо. Разом вони перетворюють цікавість до професії на зрозумілий наступний крок.</p>
+    </div>
+    <ol class="sol__items rv">
+      <li><span class="n">01</span><span><h3>Знайомство з професіями</h3><p class="muted">Напрями описані через щоденні завдання, а не через набір вимог до кандидата</p></span></li>
+      <li><span class="n">02</span><span><h3>Реальний досвід</h3><p class="muted">Коротка професійна проба в безпечному форматі: спостереження та прості завдання під наглядом фахівця</p></span></li>
+      <li><span class="n">03</span><span><h3>Наставництво</h3><p class="muted">Можливість поставити питання людині, яка працює в цій сфері щодня</p></span></li>
+      <li><span class="n">04</span><span><h3>Наступний крок</h3><p class="muted">Після проби — зрозумілі варіанти розвитку: споріднений напрям, навичка, освітня програма або розмова з наставником</p></span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===== ЯК ЦЕ ПРАЦЮЄ ===== -->
+<section class="section bg-light">
+  <div class="wrap">
+    <div class="how__head rv">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>Як це працює</span>
+        <h2 style="margin-top:var(--s-4)">П'ять кроків від цікавості до рішення</h2>
+      </div>
+      <span class="badge badge--demo">Запланований сценарій платформи</span>
+    </div>
+    <ol class="rail rv">
+      <li class="is-key"><span class="pin">1</span><h3>Обираєш напрям</h3><p>Переглядаєш сфери та професії, які тобі цікаві</p></li>
+      <li><span class="pin">2</span><h3>Переглядаєш можливість</h3><p>Читаєш, що саме побачиш і спробуєш під час проби</p></li>
+      <li><span class="pin">3</span><h3>Подаєш заявку</h3><p>Коротка форма без зайвих персональних даних</p></li>
+      <li><span class="pin">4</span><h3>Знайомишся з професією</h3><p>Проба поруч із фахівцем — онлайн або на місці</p></li>
+      <li><span class="pin">5</span><h3>Отримуєш рекомендації</h3><p>Зворотний зв'язок і варіанти подальшого розвитку</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===== КАТАЛОГ (превʼю) ===== -->
+<section class="section">
+  <div class="wrap">
+    <div class="how__head rv">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>Каталог можливостей</span>
+        <h2 style="margin-top:var(--s-4);max-width:24ch">Обери сферу, яку хочеш дослідити</h2>
+      </div>
+      <a class="btn btn--ghost btn--sm" href="/opportunities/">Усі напрями <svg width="14" height="14" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </div>
+    <div class="grid-cards rv">
+      {featured.map(o => (
+        <a class="ocard" href={`/opportunities/${o.slug}/`}>
+          <div class="ocard__top">
+            <span class="ocard__ico" aria-hidden="true">{o.icon}</span>
+            <span class="badge badge--demo">Приклад</span>
+          </div>
+          <h3>{o.title}</h3>
+          <p class="ocard__desc">{o.summary}</p>
+          <div class="ocard__meta">
+            <span class="chip">{o.category}</span><span class="chip">{o.city}</span><span class="chip">{o.duration}</span>
+          </div>
+          <div class="ocard__foot">
+            <span class="muted" style="font-size:var(--t-xs);font-weight:600">{o.availability}</span>
+            <span class="ocard__link">Деталі <svg width="14" height="14" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ===== ПЕРЕВАГИ ===== -->
+<section class="section bg-light">
+  <div class="wrap">
+    <div class="rv" style="margin-bottom:var(--s-7)">
+      <span class="eyebrow"><span class="dot"></span>Переваги</span>
+      <h2 style="margin-top:var(--s-4);max-width:26ch">Чому знайомство з професією працює краще за опис</h2>
+    </div>
+    <div class="bento rv">
+      <article class="bx bx--xl">
+        <div>
+          <span class="bx__ico" aria-hidden="true">👁</span>
+          <h3 style="margin-top:var(--s-5)">Реальний досвід замість опису</h3>
+          <p>Людина бачить, із чого складається робочий день: які завдання повторюються, як ухвалюються рішення, з ким доводиться взаємодіяти. Це те, чого не дає ні текст вакансії, ні тест на профорієнтацію.</p>
+        </div>
+        <span class="badge badge--ghost">Основа платформи</span>
+      </article>
+      <article class="bx"><span class="bx__ico" aria-hidden="true">🎓</span><h3>Безкоштовний доступ</h3><p>Початкові професійні проби безкоштовні для молоді</p></article>
+      <article class="bx"><span class="bx__ico" aria-hidden="true">💬</span><h3>Спілкування з фахівцями</h3><p>Питання можна поставити людині, яка працює в цій сфері</p></article>
+      <article class="bx bx--aqua"><span class="bx__ico" aria-hidden="true">🧭</span><h3>Свобода вибору</h3><p>Учасник сам визначає, які напрями досліджувати, і може змінити рішення без наслідків</p></article>
+      <article class="bx"><span class="bx__ico" aria-hidden="true">↩</span><h3>Зворотний зв'язок</h3><p>Після проби — коментар від наставника, а не просто «дякуємо»</p></article>
+      <article class="bx"><span class="bx__ico" aria-hidden="true">📈</span><h3>Подальший розвиток</h3><p>Зрозумілі варіанти наступного кроку після досвіду</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== КОМПАНІЯМ ===== -->
+<section class="section on-dark biz">
+  <div class="wrap biz__grid">
+    <div class="rv">
+      <span class="eyebrow"><span class="dot"></span>Компаніям</span>
+      <h2>Покажіть свою професію тим, хто тільки обирає шлях</h2>
+      <p class="lead">Коротка професійна проба — це спосіб познайомити молодь зі своєю сферою, не беручи на себе зобов'язань щодо працевлаштування. Ви самі визначаєте формат, тривалість і те, що можна показувати.</p>
+      <div class="hero__btns" style="border:0;padding:0">
+        <a class="btn btn--aqua" href="/partners/">Стати партнером</a>
+        <a class="btn btn--ghost" href="/how-it-works/">Як це організовано</a>
+      </div>
+    </div>
+    <ul class="biz__list rv">
+      <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span><b>Ви контролюєте умови</b><span>Формат, тривалість, кількість учасників і перелік безпечних завдань визначає компанія</span></span></li>
+      <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span><b>Доступ лише до релевантних заявок</b><span>Компанія бачить заявки на власні можливості, а не профілі всіх учасників платформи</span></span></li>
+      <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span><b>Знайомство з майбутніми фахівцями</b><span>Можливість показати сферу тим, хто тільки формує уявлення про професію</span></span></li>
+      <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span><b>Агрегована аналітика</b><span>Статистика інтересу до напряму без розкриття персональних даних</span></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== ПОЗИЦІЯ + ДОСЛІДЖЕННЯ ===== -->
+<section class="section soc">
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow" style="justify-content:center"><span class="dot"></span>Наша позиція</span>
+      <blockquote>Професійні можливості не повинні залежати від особистих знайомств</blockquote>
+      <p class="lead">Доступ до першого досвіду часто вирішує, ким людина стане. Ми хочемо, щоб цей доступ не залежав від того, чи є в родині хтось із потрібної сфери. Участь завжди добровільна, умови описані заздалегідь, а відмовитися можна на будь-якому етапі.</p>
+      <ul class="soc__pills">
+        <li class="chip">Прозорі умови</li><li class="chip">Добровільна участь</li>
+        <li class="chip">Мінімум персональних даних</li><li class="chip">Безпечний формат</li>
+      </ul>
+    </div>
+
+    <div class="res rv" style="margin-top:var(--s-9)">
+      <span class="eyebrow"><span class="dot"></span>Що ми перевірили</span>
+      <h2 style="margin-top:var(--s-3);font-size:var(--t-h3)">Результати тестування попередньої концепції</h2>
+      <div class="res__grid">
+        <div class="res__it"><p class="res__n">65,6%</p><p>опитаних регулярно або періодично сумнівалися у професійному виборі<br /><strong>n = 32</strong>, онлайн-опитування</p></div>
+        <div class="res__it"><p class="res__n">20 із 30</p><p>обрали ціннісну пропозицію з наголосом на реальному професійному досвіді<br /><strong>n = 30</strong>, порівняння трьох варіантів</p></div>
+        <div class="res__it"><p class="res__n">4,45 / 5</p><p>середня оцінка зручності демонстраційного прототипу<br /><strong>n = 11</strong>, відповіді через форму</p></div>
+      </div>
+      <p class="res__note">Це результати тестування попередньої концепції PROживи, на основі якої розвивається BEWAY. Вибірки невеликі й не є репрезентативними, тому цифри показують напрям інтересу, а не підтверджену закономірність. Це не дані про проведені професійні проби, працевлаштування чи співпрацю з підтвердженими роботодавцями. Дослідження проведене в межах програми Youthquake, проєктна команда STU-070.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section faq bg-light">
+  <div class="wrap faq__grid">
+    <div class="rv">
+      <span class="eyebrow"><span class="dot"></span>Поширені питання</span>
+      <h2 style="margin-top:var(--s-4)">Коротко про головне</h2>
+      <p class="lead" style="margin-top:var(--s-5)">Не знайшли відповідь? Напишіть нам у соцмережах — посилання в кінці сторінки.</p>
+    </div>
+    <div class="rv">
+      <details name="faq" open><summary>Хто може долучитися?</summary><div class="faq__a">Молоді люди 18–35 років в Україні: студенти, випускники, спеціалісти на початку кар'єри, а також ті, хто змінює напрям або повертається до професійного розвитку після перерви. Досвід у сфері не потрібен.</div></details>
+      <details name="faq"><summary>Чи це безкоштовно?</summary><div class="faq__a">Так. У початковій моделі професійні проби безкоштовні для молоді.</div></details>
+      <details name="faq"><summary>Скільки триває професійна проба?</summary><div class="faq__a">Це короткий формат знайомства, а не стажування. Орієнтовна тривалість залежить від компанії та професії й вказана в описі кожної можливості.</div></details>
+      <details name="faq"><summary>Чи гарантоване працевлаштування?</summary><div class="faq__a">Ні. BEWAY не гарантує працевлаштування і не є сервісом пошуку роботи. Ми допомагаємо зробити професійний вибір усвідомленішим. Якщо компанія окремо пропонує співбесіду, це її власне рішення.</div></details>
+      <details name="faq"><summary>Чи можна брати участь без досвіду?</summary><div class="faq__a">Так, формат створений саме для людей без практичного досвіду у вибраній сфері. Завдання під час проби виконуються в безпечному форматі під наглядом фахівця.</div></details>
+      <details name="faq"><summary>Чи можна змінити професійний напрям?</summary><div class="faq__a">Так. Можна дослідити кілька напрямів і змінити рішення в будь-який момент — це нормальна частина вибору, а не помилка.</div></details>
+      <details name="faq"><summary>Коли запустяться перші проби?</summary><div class="faq__a">Ми готуємо перші професійні проби разом із компаніями. Конкретної дати запуску поки немає, тому ми її не називаємо. Стежте за оновленнями в соцмережах.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="section">
+  <div class="wrap">
+    <div class="cta rv on-dark">
+      <span class="eyebrow" style="justify-content:center"><span class="dot"></span>До запуску</span>
+      <h2>Дізнайся про перші професійні проби</h2>
+      <p class="lead">Форму збору контактів ми не вмикаємо, поки немає захищеного сервера й опублікованої політики конфіденційності. Поки що найпростіший спосіб не пропустити запуск — соцмережі.</p>
+      <div class="cta__btns">
+        <a class="btn btn--aqua" href="https://www.instagram.com/beway.ukraine/" rel="noopener" target="_blank">Instagram</a>
+        <a class="btn btn--ghost" href="https://www.threads.com/@beway.ukraine" rel="noopener" target="_blank">Threads</a>
+      </div>
+      <p class="cta__note">Ми не збираємо email через сайт, доки не зможемо гарантувати безпечне зберігання даних і виконання прав користувача.</p>
+    </div>
+  </div>
+</section>
+
+</Base>

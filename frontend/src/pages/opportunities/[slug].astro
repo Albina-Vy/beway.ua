@@ -1,0 +1,72 @@
+---
+import Base from '../../layouts/Base.astro';
+import { opportunities } from '../../data/opportunities';
+
+export function getStaticPaths(){
+  return opportunities.map(item => ({ params:{ slug:item.slug }, props:{ item } }));
+}
+const { item } = Astro.props;
+---
+<Base title={`${item.title} | BEWAY`} description={item.summary}>
+
+<section class="page-hero">
+  <div class="wrap">
+    <a class="crumb" href="/opportunities/"><svg width="14" height="14" aria-hidden="true"><use href="#i-back"/></svg> Усі напрями</a>
+    <span class="eyebrow"><span class="dot"></span>{item.category}</span>
+    <h1 style="margin-block:var(--s-4) var(--s-5)">{item.title}</h1>
+    <p class="lead">{item.summary}</p>
+    <p style="margin-top:var(--s-5)"><span class="badge badge--demo">Демонстраційний напрям — запис ще не відкрито</span></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap detail__grid">
+    <div class="detail">
+      <h2>Про професію</h2>
+      <p class="muted">{item.about}</p>
+
+      <h2>Що робить фахівець</h2>
+      <ul class="ticks">{item.dailyWork.map(x => <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>{x}</span></li>)}</ul>
+
+      <h2>Які навички можуть бути корисними</h2>
+      <ul class="ticks">{item.skills.map(x => <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>{x}</span></li>)}</ul>
+
+      <h2>Що побачиш під час проби</h2>
+      <ul class="ticks">{item.willSee.map(x => <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>{x}</span></li>)}</ul>
+
+      <h2>Які безпечні завдання можна спробувати</h2>
+      <ul class="ticks">{item.safeTasks.map(x => <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>{x}</span></li>)}</ul>
+      <p class="muted" style="font-size:var(--t-sm);margin-top:var(--s-4)">Професійна проба не замінює оплачувану працю. Усі завдання виконуються під наглядом наставника й узгоджуються з компанією до початку.</p>
+
+      <h2>Умови участі</h2>
+      <ul class="ticks">{item.eligibility.map(x => <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>{x}</span></li>)}</ul>
+
+      <h2>Що підготувати</h2>
+      <ul class="ticks">{item.prep.map(x => <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>{x}</span></li>)}</ul>
+    </div>
+
+    <aside class="aside">
+      <h2 style="font-size:var(--t-h3)">Формат</h2>
+      <dl>
+        <dt>Формат</dt><dd>{item.format}</dd>
+        <dt>Місце</dt><dd>{item.city}</dd>
+        <dt>Тривалість</dt><dd>{item.duration}</dd>
+        <dt>Наставник</dt><dd>{item.mentorRole}</dd>
+        <dt>Організатор</dt><dd>{item.organizer ?? 'Зʼявиться після підтвердження партнерства'}</dd>
+        <dt>Статус</dt><dd>{item.availability}</dd>
+      </dl>
+      <span class="btn" aria-disabled="true">Заявка ще не відкрита</span>
+      <p class="aside__note">Це демонстраційний напрям. Коли запис відкриється, кнопка стане активною.</p>
+    </aside>
+  </div>
+</section>
+
+<section class="section section--tight bg-light">
+  <div class="wrap" style="text-align:center">
+    <h2 style="font-size:var(--t-h3)">Цікавить інший напрям?</h2>
+    <p class="lead" style="margin:var(--s-4) auto 0;text-align:center">У каталозі є ще кілька демонстраційних прикладів із різних сфер</p>
+    <p style="margin-top:var(--s-6)"><a class="btn btn--primary" href="/opportunities/">Переглянути каталог</a></p>
+  </div>
+</section>
+
+</Base>

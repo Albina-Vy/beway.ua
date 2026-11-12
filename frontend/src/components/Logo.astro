@@ -1,0 +1,11 @@
+---
+// Знак — inline SVG (щоб успадковував colour-scheme і не тягнув окремий запит).
+// Напис BEWAY — справжній текст, а не <text> усередині SVG-файлу:
+// SVG, підключений через <img>, не вантажить вебшрифти і завжди падає на Arial.
+// Латиниця, тож Space Grotesk тут працює коректно.
+const { label = 'BEWAY, на головну' } = Astro.props;
+---
+<a class="logo" href="/" aria-label={label}>
+  <svg class="logo__mark" aria-hidden="true" focusable="false"><use href="#bw-mark"/></svg>
+  <span class="logo__text">BEWAY</span>
+</a>

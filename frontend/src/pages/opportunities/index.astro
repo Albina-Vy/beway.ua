@@ -1,0 +1,114 @@
+---
+import Base from '../../layouts/Base.astro';
+import { opportunities, categories, formats, cities } from '../../data/opportunities';
+---
+<Base
+  title="Каталог професійних напрямів | BEWAY"
+  description="Демонстраційний каталог професійних напрямів BEWAY: технології, маркетинг, дизайн, медицина, інженерія, бізнес і сфера послуг. Реальні можливості зʼявляться разом із першими партнерами."
+>
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow"><span class="dot"></span>Каталог можливостей</span>
+    <h1 style="margin-block:var(--s-4) var(--s-5)">Обери сферу, яку хочеш дослідити</h1>
+    <p class="lead">Нижче — демонстраційні напрями, щоб показати, як працюватиме пошук. Реальні можливості зʼявляться разом із першими компаніями-партнерами.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="cat__panel">
+      <div class="cat__controls">
+        <div class="field">
+          <label for="q">Професія або напрям</label>
+          <input class="input" id="q" type="search" placeholder="Наприклад: дизайн, аналітика, медицина" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="fmt">Формат</label>
+          <select class="select" id="fmt">
+            <option value="">Будь-який</option>
+            {formats.map(f => <option value={f}>{f}</option>)}
+          </select>
+        </div>
+        <div class="field">
+          <label for="city">Місто</label>
+          <select class="select" id="city">
+            <option value="">Будь-яке</option>
+            {cities.map(c => <option value={c}>{c}</option>)}
+          </select>
+        </div>
+      </div>
+      <div class="cat__filters" role="group" aria-label="Фільтр за сферою">
+        <button class="fchip" type="button" aria-pressed="true" data-cat="">Усі напрями</button>
+        {categories.map(c => <button class="fchip" type="button" aria-pressed="false" data-cat={c}>{c}</button>)}
+      </div>
+    </div>
+
+    <div class="cat__status">
+      <p class="muted" id="count" role="status" aria-live="polite" style="font-size:var(--t-sm);font-weight:600">
+        Показано {opportunities.length} із {opportunities.length} демонстраційних напрямів
+      </p>
+      <span class="badge badge--demo">Демонстраційні дані</span>
+    </div>
+
+    <div class="grid-cards" id="cards">
+      {opportunities.map(o => (
+        <a class="ocard" href={`/opportunities/${o.slug}/`}
+           data-cat={o.category} data-fmt={o.format} data-city={o.city}
+           data-search={`${o.title} ${o.category} ${o.summary}`.toLowerCase()}>
+          <div class="ocard__top">
+            <span class="ocard__ico" aria-hidden="true">{o.icon}</span>
+            <span class="badge badge--demo">Приклад</span>
+          </div>
+          <h2 class="ocard-title" style="font-size:1.125rem;letter-spacing:-.02em">{o.title}</h2>
+          <p class="ocard__desc">{o.summary}</p>
+          <div class="ocard__meta">
+            <span class="chip">{o.category}</span><span class="chip">{o.city}</span><span class="chip">{o.duration}</span>
+          </div>
+          <div class="ocard__foot">
+            <span class="muted" style="font-size:var(--t-xs);font-weight:600">{o.availability}</span>
+            <span class="ocard__link">Деталі <svg width="14" height="14" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="state" id="empty" hidden>
+      <h2 style="font-size:var(--t-h3)">Нічого не знайшли за цим запитом</h2>
+      <p>Спробуй іншу назву або прибери фільтри. Напрямів у демонстраційному каталозі поки небагато — реальні можливості зʼявляться з першими партнерами.</p>
+      <button class="btn btn--ghost" type="button" id="reset">Скинути фільтри</button>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+(function(){
+  var q=document.getElementById('q'), fmt=document.getElementById('fmt'), city=document.getElementById('city'),
+      cards=Array.prototype.slice.call(document.querySelectorAll('#cards .ocard')),
+      chips=Array.prototype.slice.call(document.querySelectorAll('.fchip')),
+      empty=document.getElementById('empty'), count=document.getElementById('count'),
+      grid=document.getElementById('cards'), cat='';
+  function render(){
+    var term=q.value.trim().toLowerCase(), f=fmt.value, c=city.value, n=0;
+    cards.forEach(function(el){
+      var ok=(!cat||el.dataset.cat===cat)&&(!f||el.dataset.fmt===f)&&(!c||el.dataset.city===c)&&
+             (!term||el.dataset.search.indexOf(term)>-1);
+      el.hidden=!ok; if(ok)n++;
+    });
+    empty.hidden=n>0; grid.hidden=n===0;
+    count.textContent = n>0
+      ? 'Показано '+n+' із '+cards.length+' демонстраційних напрямів'
+      : 'За цими умовами нічого не знайдено';
+  }
+  chips.forEach(function(b){ b.addEventListener('click',function(){
+    chips.forEach(function(x){x.setAttribute('aria-pressed','false');});
+    b.setAttribute('aria-pressed','true'); cat=b.dataset.cat||''; render();
+  });});
+  q.addEventListener('input',render); fmt.addEventListener('change',render); city.addEventListener('change',render);
+  document.getElementById('reset').addEventListener('click',function(){
+    q.value='';fmt.value='';city.value='';cat='';
+    chips.forEach(function(x,i){x.setAttribute('aria-pressed',i===0?'true':'false');});
+    render(); q.focus();
+  });
+})();
+</script>
+</Base>

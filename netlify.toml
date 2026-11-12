@@ -1,0 +1,28 @@
+# Деплой BEWAY на Netlify.
+# Репозиторій містить і фронтенд, і API, тому base вказує на папку фронтенду.
+
+[build]
+  base    = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Домен впливає на canonical, Open Graph і sitemap.
+# Якщо не задати — підставиться значення за замовчуванням з astro.config.mjs.
+# Краще задати в Netlify: Site configuration → Environment variables → PUBLIC_SITE_URL
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
+    X-Frame-Options        = "DENY"
+    Permissions-Policy     = "geolocation=(), camera=(), microphone=(), payment=()"
+
+# Хешовані ассети можна кешувати назавжди — ім'я файлу змінюється при зміні вмісту.
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

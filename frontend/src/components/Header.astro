@@ -1,0 +1,49 @@
+---
+import Logo from './Logo.astro';
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/opportunities/', name: 'Можливості' },
+  { href: '/how-it-works/',  name: 'Як це працює' },
+  { href: '/partners/',      name: 'Компаніям' },
+  { href: '/about/',         name: 'Про нас' },
+];
+const isCurrent = (href) => path === href || (href !== '/' && path.startsWith(href));
+---
+<header class="hdr">
+  <div class="wrap hdr__in">
+    <Logo />
+    <nav class="hdr__nav" aria-label="Основна навігація">
+      {nav.map(x => <a href={x.href} aria-current={isCurrent(x.href) ? 'page' : undefined}>{x.name}</a>)}
+    </nav>
+    <div class="hdr__cta">
+      <a class="btn btn--ghost btn--sm" href="/partners/">Для компаній</a>
+      <a class="btn btn--primary btn--sm" href="/join/">Долучитися до запуску</a>
+    </div>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Відкрити меню">
+      <span></span>
+    </button>
+  </div>
+  <div class="mnav wrap" id="mnav" data-open="false">
+    <ul>
+      {nav.map(x => <li><a href={x.href} aria-current={isCurrent(x.href) ? 'page' : undefined}>{x.name}</a></li>)}
+    </ul>
+    <a class="btn btn--primary" href="/join/">Долучитися до запуску</a>
+  </div>
+</header>
+
+<script is:inline>
+(function(){
+  var b=document.querySelector('.burger'), m=document.getElementById('mnav');
+  if(!b||!m) return;
+  function set(open){
+    b.setAttribute('aria-expanded',String(open));
+    m.setAttribute('data-open',String(open));
+    b.setAttribute('aria-label',open?'Закрити меню':'Відкрити меню');
+  }
+  b.addEventListener('click',function(){ set(b.getAttribute('aria-expanded')!=='true'); });
+  m.addEventListener('click',function(e){ if(e.target.tagName==='A') set(false); });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&b.getAttribute('aria-expanded')==='true'){ set(false); b.focus(); }
+  });
+})();
+</script>
