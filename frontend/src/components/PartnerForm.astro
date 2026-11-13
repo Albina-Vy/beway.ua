@@ -1,0 +1,194 @@
+---
+/** Форма для компаній та освітніх організацій. Пише в partner_requests. */
+const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL ?? '';
+const SUPABASE_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? '';
+const configured = Boolean(SUPABASE_URL && SUPABASE_KEY);
+const id = 'partner';
+---
+<section class="section" id="partner-form">
+  <div class="wrap">
+    <div class="formcard rv">
+      <div class="formcard__head">
+        <span class="eyebrow"><span class="dot"></span>Стати партнером</span>
+        <h2>Запросити обговорення пілоту</h2>
+        <p class="lead">
+          Залиште контакт — ми повернемося з описом формату, зразком угоди про конфіденційність
+          і переліком того, що потрібно від компанії. Жодних зобовʼязань на цьому етапі.
+        </p>
+      </div>
+
+      {!configured && (
+        <p class="formnote formnote--warn" role="status">
+          Приймання звернень ще не підключено до сервера, тому форма заблокована. Напишіть нам у
+          <a href="https://www.instagram.com/beway.ukraine/" rel="noopener" target="_blank">Instagram</a>.
+        </p>
+      )}
+
+      <form class="aform" id={`${id}-form`} novalidate
+            data-endpoint={configured ? `${SUPABASE_URL}/rest/v1/partner_requests` : ''}
+            data-key={configured ? SUPABASE_KEY : ''}>
+        <fieldset disabled={!configured}>
+          <legend class="sr">Дані організації</legend>
+
+          <div class="aform__grid">
+            <div class="field">
+              <label for={`${id}-org`}>Назва організації <span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id={`${id}-org`} name="organization" type="text" required
+                     maxlength="200" autocomplete="organization" aria-describedby={`${id}-org-err`} />
+              <p class="err" id={`${id}-org-err`} hidden>Вкажіть назву організації</p>
+            </div>
+
+            <div class="field">
+              <label for={`${id}-type`}>Тип партнерства</label>
+              <select class="select" id={`${id}-type`} name="partner_type">
+                <option value="Компанія">Компанія</option>
+                <option value="Освітня організація">Освітня організація</option>
+                <option value="Інше">Інше</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for={`${id}-contact`}>Контактна особа <span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id={`${id}-contact`} name="contact_name" type="text" required
+                     maxlength="120" autocomplete="name" aria-describedby={`${id}-contact-err`} />
+              <p class="err" id={`${id}-contact-err`} hidden>Вкажіть, з ким нам звʼязатися</p>
+            </div>
+
+            <div class="field">
+              <label for={`${id}-email`}>Робоча пошта <span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id={`${id}-email`} name="email" type="email" required
+                     maxlength="200" autocomplete="email" aria-describedby={`${id}-email-err`} />
+              <p class="err" id={`${id}-email-err`} hidden>Перевірте адресу</p>
+            </div>
+
+            <div class="field">
+              <label for={`${id}-phone`}>Телефон <span class="opt">необовʼязково</span></label>
+              <input class="input" id={`${id}-phone`} name="phone" type="tel" maxlength="32" autocomplete="tel" />
+            </div>
+
+            <div class="field">
+              <label for={`${id}-site`}>Сайт <span class="opt">необовʼязково</span></label>
+              <input class="input" id={`${id}-site`} name="website_url" type="url" maxlength="300" placeholder="https://" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for={`${id}-industry`}>Сфера діяльності <span class="opt">необовʼязково</span></label>
+            <input class="input" id={`${id}-industry`} name="industry" type="text" maxlength="120"
+                   placeholder="Наприклад: виробництво, медицина, ІТ" />
+          </div>
+
+          <div class="field">
+            <label for={`${id}-msg`}>Що хочете показати молоді <span class="opt">необовʼязково</span></label>
+            <textarea class="input textarea" id={`${id}-msg`} name="message" rows="4" maxlength="2000"></textarea>
+          </div>
+
+          <div class="hp" aria-hidden="true">
+            <label for={`${id}-hp`}>Не заповнюйте це поле</label>
+            <input id={`${id}-hp`} name="company_fax" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="consents">
+            <label class="consent">
+              <input type="checkbox" name="consent_processing" required aria-describedby={`${id}-consent-err`} />
+              <span>
+                Погоджуюся на обробку контактних даних організації для звʼязку щодо партнерства.
+                <a href="/privacy/">Як ми працюємо з даними</a><span class="req" aria-hidden="true"> *</span>
+              </span>
+            </label>
+            <p class="err" id={`${id}-consent-err`} hidden>Без згоди ми не можемо зберегти звернення</p>
+          </div>
+
+          <div class="aform__submit">
+            <button class="btn btn--aqua" type="submit">Надіслати звернення</button>
+            <p class="formnote" id={`${id}-status`} role="status" aria-live="polite"></p>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ id }}>
+(function(){
+  var form = document.getElementById(id + '-form');
+  if (!form) return;
+  var status = document.getElementById(id + '-status');
+  var endpoint = form.dataset.endpoint, key = form.dataset.key;
+  var btn = form.querySelector('button[type="submit"]');
+
+  function mark(name, on){
+    var el = form.querySelector('[name="' + name + '"]');
+    if (!el) return;
+    var d = el.getAttribute('aria-describedby');
+    var box = d ? document.getElementById(d) : null;
+    if (box) box.hidden = !on;
+    el.setAttribute('aria-invalid', on ? 'true' : 'false');
+  }
+  function say(t, k){ status.textContent = t; status.className = 'formnote' + (k ? ' formnote--' + k : ''); }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!endpoint || !key) return;
+    var fd = new FormData(form);
+    if ((fd.get('company_fax') || '').toString().trim() !== '') return;
+
+    var org     = (fd.get('organization') || '').toString().trim();
+    var contact = (fd.get('contact_name') || '').toString().trim();
+    var email   = (fd.get('email') || '').toString().trim();
+    var consent = fd.get('consent_processing') === 'on';
+
+    var ok = true;
+    ['organization','contact_name','email'].forEach(function(n){ mark(n, false); });
+    document.getElementById(id + '-consent-err').hidden = true;
+
+    if (org.length < 2){ mark('organization', true); ok = false; }
+    if (contact.length < 2){ mark('contact_name', true); ok = false; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ mark('email', true); ok = false; }
+    if (!consent){ document.getElementById(id + '-consent-err').hidden = false; ok = false; }
+
+    if (!ok){
+      say('Перевірте підсвічені поля', 'warn');
+      var bad = form.querySelector('[aria-invalid="true"]'); if (bad) bad.focus();
+      return;
+    }
+
+    var payload = {
+      organization:       org,
+      contact_name:       contact,
+      email:              email,
+      phone:              (fd.get('phone') || '').toString().trim() || null,
+      website:            (fd.get('website_url') || '').toString().trim() || null,
+      partner_type:       (fd.get('partner_type') || 'Компанія').toString(),
+      industry:           (fd.get('industry') || '').toString().trim() || null,
+      message:            (fd.get('message') || '').toString().trim() || null,
+      consent_processing: true
+    };
+
+    btn.disabled = true;
+    say('Надсилаємо…');
+
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': key, 'Authorization': 'Bearer ' + key, 'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(function(r){
+      if (r.ok){
+        form.querySelector('fieldset').disabled = true;
+        say('Звернення прийнято. Ми відповімо на ' + email + ' найближчими днями.', 'ok');
+        return;
+      }
+      return r.text().then(function(t){ throw new Error(t || ('HTTP ' + r.status)); });
+    })
+    .catch(function(err){
+      btn.disabled = false;
+      say('Не вдалося надіслати. Перевірте зʼєднання або напишіть нам в Instagram.', 'warn');
+      console.error('[beway] помилка надсилання звернення партнера:', err);
+    });
+  });
+})();
+</script>

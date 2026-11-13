@@ -1,0 +1,232 @@
+---
+/**
+ * Форма заявки на професійну пробу.
+ *
+ * Пише напряму в Postgres (Supabase REST) з політикою "тільки вставка":
+ * публічний ключ не дає прочитати чужі заявки — див. db/schema.sql.
+ *
+ * Якщо змінні середовища не задані, форма НЕ прикидається робочою:
+ * поля блокуються, а підпис прямо каже, що приймання заявок не налаштоване.
+ */
+const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL ?? '';
+const SUPABASE_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? '';
+const configured = Boolean(SUPABASE_URL && SUPABASE_KEY);
+
+const { opportunitySlug = '', opportunityTitle = '', id = 'apply' } = Astro.props;
+---
+<section class="section" id={id}>
+  <div class="wrap">
+    <div class="formcard rv">
+      <div class="formcard__head">
+        <span class="eyebrow"><span class="dot"></span>Заявка на пробу</span>
+        <h2 id={`${id}-title`}>
+          {opportunityTitle ? `Подати заявку: ${opportunityTitle}` : 'Подати заявку на професійну пробу'}
+        </h2>
+        <p class="lead">
+          Заповни форму — ми передамо заявку компанії, яка проводить пробу. Остаточне рішення
+          про участь ухвалює роботодавець. Відповідь надійде на пошту в будь-якому разі,
+          і відмова теж буде з поясненням.
+        </p>
+      </div>
+
+      {!configured && (
+        <p class="formnote formnote--warn" role="status">
+          Приймання заявок ще не підключено до сервера. Поки це не зроблено, форма заблокована —
+          ми не показуємо «заявку надіслано», якщо вона нікуди не йде. Напишіть нам у
+          <a href="https://www.instagram.com/beway.ukraine/" rel="noopener" target="_blank">Instagram</a>.
+        </p>
+      )}
+
+      <form class="aform" id={`${id}-form`} novalidate
+            data-endpoint={configured ? `${SUPABASE_URL}/rest/v1/applications` : ''}
+            data-key={configured ? SUPABASE_KEY : ''}
+            data-slug={opportunitySlug}>
+
+        <fieldset disabled={!configured}>
+          <legend class="sr">Дані учасника</legend>
+
+          <div class="aform__grid">
+            <div class="field">
+              <label for={`${id}-name`}>Імʼя та прізвище <span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id={`${id}-name`} name="full_name" type="text" required
+                     autocomplete="name" maxlength="120" aria-describedby={`${id}-name-err`} />
+              <p class="err" id={`${id}-name-err`} hidden>Вкажи імʼя — компанія має знати, хто подається</p>
+            </div>
+
+            <div class="field">
+              <label for={`${id}-email`}>Електронна пошта <span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id={`${id}-email`} name="email" type="email" required
+                     autocomplete="email" maxlength="200" aria-describedby={`${id}-email-err`} />
+              <p class="err" id={`${id}-email-err`} hidden>Перевір адресу — саме на неї прийде відповідь</p>
+            </div>
+
+            <div class="field">
+              <label for={`${id}-phone`}>Телефон <span class="opt">необовʼязково</span></label>
+              <input class="input" id={`${id}-phone`} name="phone" type="tel"
+                     autocomplete="tel" maxlength="32" placeholder="+380" />
+            </div>
+
+            <div class="field">
+              <label for={`${id}-city`}>Місто <span class="opt">необовʼязково</span></label>
+              <input class="input" id={`${id}-city`} name="city" type="text"
+                     autocomplete="address-level2" maxlength="80" />
+            </div>
+
+            <div class="field">
+              <label for={`${id}-format`}>Зручний формат</label>
+              <select class="select" id={`${id}-format`} name="preferred_format">
+                <option value="Будь-який">Будь-який</option>
+                <option value="Онлайн">Онлайн</option>
+                <option value="На місці">На місці</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for={`${id}-cv`}>Посилання на резюме <span class="opt">необовʼязково</span></label>
+              <input class="input" id={`${id}-cv`} name="cv_url" type="url" maxlength="500"
+                     placeholder="Google Drive, LinkedIn або інше посилання"
+                     aria-describedby={`${id}-cv-hint`} />
+              <p class="hint" id={`${id}-cv-hint`}>
+                Файли ми не зберігаємо — достатньо посилання з доступом на перегляд. Резюме
+                не обовʼязкове: без досвіду теж беруть.
+              </p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for={`${id}-motivation`}>Чому цей напрям цікавий <span class="opt">необовʼязково</span></label>
+            <textarea class="input textarea" id={`${id}-motivation`} name="motivation" rows="4"
+                      maxlength="1500" aria-describedby={`${id}-mot-hint`}></textarea>
+            <p class="hint" id={`${id}-mot-hint`}>
+              Кілька речень своїми словами. Це найчастіше і вирішує, кого обирає компанія.
+            </p>
+          </div>
+
+          <!-- Пастка для ботів: справжня людина цього поля не бачить і не заповнює -->
+          <div class="hp" aria-hidden="true">
+            <label for={`${id}-website`}>Не заповнюй це поле</label>
+            <input id={`${id}-website`} name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="consents">
+            <label class="consent">
+              <input type="checkbox" name="consent_processing" required aria-describedby={`${id}-consent-err`} />
+              <span>
+                Погоджуюся на обробку вказаних даних для розгляду заявки та передавання її
+                компанії, яка проводить пробу. <a href="/privacy/">Як ми працюємо з даними</a>
+                <span class="req" aria-hidden="true"> *</span>
+              </span>
+            </label>
+            <p class="err" id={`${id}-consent-err`} hidden>Без цієї згоди ми не маємо права розглядати заявку</p>
+
+            <label class="consent">
+              <input type="checkbox" name="consent_marketing" />
+              <span>Хочу отримувати листи про нові професійні проби. Окрема згода, можна не ставити</span>
+            </label>
+          </div>
+
+          <div class="aform__submit">
+            <button class="btn btn--primary" type="submit">Надіслати заявку</button>
+            <p class="formnote" id={`${id}-status`} role="status" aria-live="polite"></p>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ id }}>
+(function(){
+  var form = document.getElementById(id + '-form');
+  if (!form) return;
+  var status   = document.getElementById(id + '-status');
+  var endpoint = form.dataset.endpoint;
+  var key      = form.dataset.key;
+  var btn      = form.querySelector('button[type="submit"]');
+
+  function showErr(name, on){
+    var el = form.querySelector('[name="' + name + '"]');
+    if (!el) return;
+    var id2 = el.getAttribute('aria-describedby');
+    var box = id2 ? document.getElementById(id2) : null;
+    if (box) box.hidden = !on;
+    el.setAttribute('aria-invalid', on ? 'true' : 'false');
+  }
+
+  function say(text, kind){
+    status.textContent = text;
+    status.className = 'formnote' + (kind ? ' formnote--' + kind : '');
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!endpoint || !key) return;
+
+    var fd = new FormData(form);
+
+    // Пастка для ботів спрацювала — мовчки зупиняємось
+    if ((fd.get('website') || '').toString().trim() !== '') return;
+
+    var name    = (fd.get('full_name') || '').toString().trim();
+    var email   = (fd.get('email') || '').toString().trim();
+    var consent = fd.get('consent_processing') === 'on';
+
+    var ok = true;
+    showErr('full_name', false); showErr('email', false);
+    document.getElementById(id + '-consent-err').hidden = true;
+
+    if (name.length < 2){ showErr('full_name', true); ok = false; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ showErr('email', true); ok = false; }
+    if (!consent){ document.getElementById(id + '-consent-err').hidden = false; ok = false; }
+
+    if (!ok){
+      say('Перевір підсвічені поля', 'warn');
+      var bad = form.querySelector('[aria-invalid="true"]');
+      if (bad) bad.focus();
+      return;
+    }
+
+    var payload = {
+      full_name:          name,
+      email:              email,
+      phone:              (fd.get('phone') || '').toString().trim() || null,
+      city:               (fd.get('city') || '').toString().trim() || null,
+      opportunity_slug:   form.dataset.slug || null,
+      preferred_format:   (fd.get('preferred_format') || 'Будь-який').toString(),
+      cv_url:             (fd.get('cv_url') || '').toString().trim() || null,
+      motivation:         (fd.get('motivation') || '').toString().trim() || null,
+      consent_processing: true,
+      consent_marketing:  fd.get('consent_marketing') === 'on',
+      source_page:        location.pathname
+    };
+
+    btn.disabled = true;
+    say('Надсилаємо…');
+
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': key,
+        'Authorization': 'Bearer ' + key,
+        // Політика дозволяє лише вставку, тому рядок у відповідь не просимо
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(function(r){
+      if (r.ok){
+        form.querySelector('fieldset').disabled = true;
+        say('Заявку прийнято. Відповідь надійде на ' + email + '. Рішення ухвалює компанія, це займає кілька днів.', 'ok');
+        return;
+      }
+      return r.text().then(function(t){ throw new Error(t || ('HTTP ' + r.status)); });
+    })
+    .catch(function(err){
+      btn.disabled = false;
+      say('Не вдалося надіслати заявку. Перевір зʼєднання і спробуй ще раз, або напиши нам в Instagram.', 'warn');
+      console.error('[beway] помилка надсилання заявки:', err);
+    });
+  });
+})();
+</script>

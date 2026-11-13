@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import { opportunities } from '../data/opportunities';
+import Switcher from '../components/Switcher.astro';
+import ApplyForm from '../components/ApplyForm.astro';
 const featured = opportunities.slice(0, 3);
 ---
 <Base>
@@ -77,8 +79,19 @@ const featured = opportunities.slice(0, 3);
   </div>
 </section>
 
-<!-- ===== ЯК ЦЕ ПРАЦЮЄ ===== -->
+<!-- ===== ЦЕ ПРО ТЕБЕ? ===== -->
 <section class="section bg-light">
+  <div class="wrap">
+    <div class="rv" style="margin-bottom:var(--s-6)">
+      <span class="eyebrow"><span class="dot"></span>Кому це підходить</span>
+      <h2 style="margin-top:var(--s-4);max-width:24ch">Обери ситуацію, схожу на твою</h2>
+    </div>
+    <div class="rv"><Switcher /></div>
+  </div>
+</section>
+
+<!-- ===== ЯК ЦЕ ПРАЦЮЄ ===== -->
+<section class="section">
   <div class="wrap">
     <div class="how__head rv">
       <div>
@@ -94,6 +107,52 @@ const featured = opportunities.slice(0, 3);
       <li><span class="pin">4</span><h3>Знайомишся з професією</h3><p>Проба поруч із фахівцем — онлайн або на місці</p></li>
       <li><span class="pin">5</span><h3>Отримуєш рекомендації</h3><p>Зворотний зв'язок і варіанти подальшого розвитку</p></li>
     </ol>
+  </div>
+</section>
+
+<!-- ===== ПРОЗОРИЙ ВІДБІР ===== -->
+<section class="section bg-light">
+  <div class="wrap">
+    <div class="how__head rv">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>Відбір учасників</span>
+        <h2 style="margin-top:var(--s-4);max-width:26ch">Хто і за якими критеріями обирає учасників</h2>
+      </div>
+      <a class="btn btn--ghost btn--sm" href="/how-it-works/#selection">Повний опис відбору <svg width="14" height="14" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </div>
+
+    <p class="lead rv" style="max-width:66ch">
+      Учасник заповнює форму заявки та за бажанням додає резюме. Ми перевіряємо лише формальну
+      відповідність і передаємо заявку компанії. <strong>Остаточне рішення про участь ухвалює
+      роботодавець</strong>, а не BEWAY — ми не ранжуємо кандидатів і не впливаємо на вибір.
+    </p>
+
+    <div class="crit rv">
+      <article class="crit__it">
+        <h3>Мотивація</h3>
+        <p>Кілька речень про те, чому цікавий саме цей напрям. У кандидатів без досвіду це головне, на що дивиться компанія</p>
+      </article>
+      <article class="crit__it">
+        <h3>Відповідність формату</h3>
+        <p>Місто, дата й формат участі мають збігатися з умовами конкретної проби</p>
+      </article>
+      <article class="crit__it">
+        <h3>Готовність до правил</h3>
+        <p>Згода пройти інструктаж із безпеки та дотримуватись правил компанії під час візиту</p>
+      </article>
+      <article class="crit__it">
+        <h3>Кількість місць</h3>
+        <p>Наставник може прийняти обмежену кількість людей за раз — частина заявок переноситься на наступну пробу</p>
+      </article>
+      <article class="crit__it crit__no">
+        <h3>Оцінки та диплом</h3>
+        <p>Не враховуються. Проба — це знайомство з професією, а не конкурс</p>
+      </article>
+      <article class="crit__it crit__no">
+        <h3>Досвід роботи</h3>
+        <p>Не потрібен. Формат створений саме для людей без практики у вибраній сфері</p>
+      </article>
+    </div>
   </div>
 </section>
 
@@ -221,20 +280,7 @@ const featured = opportunities.slice(0, 3);
   </div>
 </section>
 
-<!-- ===== CTA ===== -->
-<section class="section">
-  <div class="wrap">
-    <div class="cta rv on-dark">
-      <span class="eyebrow" style="justify-content:center"><span class="dot"></span>До запуску</span>
-      <h2>Дізнайся про перші професійні проби</h2>
-      <p class="lead">Форму збору контактів ми не вмикаємо, поки немає захищеного сервера й опублікованої політики конфіденційності. Поки що найпростіший спосіб не пропустити запуск — соцмережі.</p>
-      <div class="cta__btns">
-        <a class="btn btn--aqua" href="https://www.instagram.com/beway.ukraine/" rel="noopener" target="_blank">Instagram</a>
-        <a class="btn btn--ghost" href="https://www.threads.com/@beway.ukraine" rel="noopener" target="_blank">Threads</a>
-      </div>
-      <p class="cta__note">Ми не збираємо email через сайт, доки не зможемо гарантувати безпечне зберігання даних і виконання прав користувача.</p>
-    </div>
-  </div>
-</section>
+<!-- ===== ФОРМА ЗАЯВКИ ===== -->
+<ApplyForm id="apply" />
 
 </Base>

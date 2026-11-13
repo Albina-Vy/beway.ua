@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { opportunities } from '../../data/opportunities';
+import ApplyForm from '../../components/ApplyForm.astro';
 
 export function getStaticPaths(){
   return opportunities.map(item => ({ params:{ slug:item.slug }, props:{ item } }));
@@ -41,6 +42,25 @@ const { item } = Astro.props;
       <h2>Умови участі</h2>
       <ul class="ticks">{item.eligibility.map(x => <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>{x}</span></li>)}</ul>
 
+
+      <h2>Хто обирає учасників</h2>
+      <p class="muted">
+        Ти заповнюєш форму заявки й за бажанням додаєш посилання на резюме. Ми перевіряємо
+        лише формальну відповідність умовам і передаємо заявку компанії.
+        <strong>Остаточне рішення ухвалює роботодавець</strong> — він виходить із кількості
+        місць у наставника, вимог безпеки на обʼєкті та того, що саме можна показувати стороннім.
+        BEWAY кандидатів не ранжує й на вибір не впливає.
+      </p>
+      <ul class="ticks">
+        <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>Досвід роботи, оцінки й диплом не враховуються</span></li>
+        <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>Резюме необовʼязкове — його відсутність не є мінусом</span></li>
+        <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>Відповідь надходить усім, і в разі відмови теж</span></li>
+        <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>Відмова не закриває доступ до інших напрямів</span></li>
+      </ul>
+      <p class="muted" style="font-size:var(--t-sm);margin-top:var(--s-4)">
+        Повний опис етапів відбору — на сторінці <a href="/how-it-works/#selection">Як це працює</a>.
+      </p>
+
       <h2>Що підготувати</h2>
       <ul class="ticks">{item.prep.map(x => <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>{x}</span></li>)}</ul>
     </div>
@@ -55,11 +75,13 @@ const { item } = Astro.props;
         <dt>Організатор</dt><dd>{item.organizer ?? 'Зʼявиться після підтвердження партнерства'}</dd>
         <dt>Статус</dt><dd>{item.availability}</dd>
       </dl>
-      <span class="btn" aria-disabled="true">Заявка ще не відкрита</span>
-      <p class="aside__note">Це демонстраційний напрям. Коли запис відкриється, кнопка стане активною.</p>
+      <a class="btn btn--primary" href="#apply">Подати заявку</a>
+      <p class="aside__note">Рішення про участь ухвалює компанія. Відповідь надійде на пошту в будь-якому разі.</p>
     </aside>
   </div>
 </section>
+
+<ApplyForm id="apply" opportunitySlug={item.slug} opportunityTitle={item.title} />
 
 <section class="section section--tight bg-light">
   <div class="wrap" style="text-align:center">

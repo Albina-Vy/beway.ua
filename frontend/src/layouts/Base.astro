@@ -36,9 +36,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
   <link rel="icon" href="/assets/beway-symbol.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Manrope несе кирилицю (перевірено: Ґ ґ Є І Ї присутні).
-       Space Grotesk кирилиці НЕ має — вантажимо лише одну вагу для напису BEWAY і номерів. -->
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet" />
+  <!-- Rubik — заголовки, логотип, інтерфейс. PT Serif — основний текст.
+       Обидва мають повну українську кирилицю (Ґ ґ Є І Ї перевірені у файлах шрифтів). -->
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;800&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
 </head>
 <body>
   <a class="skip" href="#main">Перейти до основного вмісту</a>

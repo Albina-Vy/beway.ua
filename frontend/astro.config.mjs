@@ -10,8 +10,6 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   integrations: [sitemap({
-    // /privacy/ позначена noindex — у мапі сайту їй не місце
-    filter: (page) => !page.includes('/privacy/'),
     i18n: { defaultLocale: 'uk', locales: { uk: 'uk-UA' } },
   })],
   build: { inlineStylesheets: 'auto', assets: 'static' },

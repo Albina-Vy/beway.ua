@@ -1,0 +1,85 @@
+---
+/** Вкладки «як відбувається відбір». Повна клавіатурна навігація за патерном ARIA Tabs. */
+const stages = [
+  {
+    n: '01', tab: 'Подаєш заявку', who: 'Вирішуєш ти',
+    h: 'Заповнюєш форму й за бажанням додаєш резюме',
+    p: 'Обовʼязкові лише імʼя, пошта та згода на обробку даних. Резюме, місто, телефон і кілька речень про те, чому цікавий напрям, — за бажанням. Але саме ці кілька речень найчастіше й вирішують, кого запросять: досвіду в більшості кандидатів немає, тож компанія дивиться на мотивацію.',
+    note: 'Подати заявку можна на кілька напрямів одночасно. Це не зменшує шансів.',
+  },
+  {
+    n: '02', tab: 'Базова перевірка', who: 'Перевіряє BEWAY',
+    h: 'Ми дивимось лише на формальні речі',
+    p: 'Чи заповнені обовʼязкові поля, чи відповідає вік рамкам 18–35, чи підходить формат і місто для конкретної проби, чи не дублюється заявка. Ми не оцінюємо людину, не ранжуємо кандидатів і не вирішуємо, хто «кращий».',
+    note: 'На цьому етапі відсіюються тільки незаповнені та явно невідповідні заявки.',
+  },
+  {
+    n: '03', tab: 'Обирає компанія', who: 'Вирішує роботодавець',
+    h: 'Остаточне рішення ухвалює компанія, а не платформа',
+    p: 'Ми передаємо компанії заявки на її пробу. Вона обирає учасників за власними критеріями й обмеженнями: скільки людей фізично може прийняти наставник, які вимоги безпеки діють на обʼєкті, що саме можна показувати стороннім. BEWAY на це рішення не впливає й не може його змінити.',
+    note: 'Компанія бачить заявки лише на власні можливості — не профілі всіх учасників платформи.',
+  },
+  {
+    n: '04', tab: 'Відповідь', who: 'Отримують усі',
+    h: 'Відповідь приходить у будь-якому разі',
+    p: 'І тим, кого обрали, і тим, кого ні. Мовчання замість відмови — найчастіша претензія молоді до відгуків на вакансії, і ми не хочемо її повторювати. Якщо компанія назвала причину відмови, ми передамо її. Якщо ні — так і напишемо, вигадувати пояснення не будемо.',
+    note: 'Відмова не закриває доступ до інших напрямів: можна подаватися скільки завгодно разів.',
+  },
+];
+---
+<div class="tabs">
+  <div class="tabs__bar" role="tablist" aria-label="Етапи відбору">
+    {stages.map((s, i) => (
+      <button class="tab" type="button" role="tab" id={`seltab-${i}`}
+              aria-controls={`selpanel-${i}`} aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}>
+        <span class="tab__n">{s.n}</span>{s.tab}
+      </button>
+    ))}
+  </div>
+
+  {stages.map((s, i) => (
+    <div class="tabpanel" role="tabpanel" id={`selpanel-${i}`} aria-labelledby={`seltab-${i}`}
+         tabindex="0" hidden={i !== 0}>
+      <div>
+        <h3>{s.h}</h3>
+        <p class="muted">{s.p}</p>
+      </div>
+      <div class="who">
+        <h4>Хто вирішує</h4>
+        <p style="font-weight:700;margin-bottom:var(--s-3)">{s.who}</p>
+        <p class="muted" style="font-size:var(--t-sm)">{s.note}</p>
+      </div>
+    </div>
+  ))}
+</div>
+
+<script is:inline>
+(function(){
+  var bar = document.querySelector('.tabs__bar[role="tablist"]');
+  if (!bar) return;
+  var tabs = Array.prototype.slice.call(bar.querySelectorAll('[role="tab"]'));
+
+  function select(i, focus){
+    tabs.forEach(function(t, j){
+      var on = i === j;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) tabs[i].focus();
+  }
+
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ select(i); });
+    t.addEventListener('keydown', function(e){
+      var k = e.key, last = tabs.length - 1, next = null;
+      if (k === 'ArrowRight' || k === 'ArrowDown') next = i === last ? 0 : i + 1;
+      else if (k === 'ArrowLeft' || k === 'ArrowUp') next = i === 0 ? last : i - 1;
+      else if (k === 'Home') next = 0;
+      else if (k === 'End') next = last;
+      if (next !== null){ e.preventDefault(); select(next, true); }
+    });
+  });
+})();
+</script>

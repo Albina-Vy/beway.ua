@@ -1,0 +1,68 @@
+---
+/** «Це про тебе?» — перемикач ситуацій. Кожна плашка міняє панель із відповіддю. */
+const cases = [
+  { k:'student',  label:'Я студент і сумніваюсь',
+    h:'Побачити професію до того, як витратиш на неї роки',
+    p:'Спеціальність обирають у 17 років, маючи про професію уявлення з опису на сайті вишу. Проба займає кілька годин і дає те, чого не дає жоден опис: як виглядає звичайний робочий день і чи хочеться в ньому бути.',
+    tag:'Можна подаватись із першого курсу' },
+  { k:'grad',     label:'Щойно випустився',
+    h:'Зрозуміти, куди подаватися, поки не розіслав сто резюме',
+    p:'Диплом є, досвіду немає, а вакансії вимагають «від року». Проба не замінює роботу, але дає побачити кілька сфер зблизька й визначитись, куди взагалі варто цілити.',
+    tag:'Досвід не потрібен' },
+  { k:'switch',   label:'Хочу змінити напрям',
+    h:'Перевірити нову сферу, не кидаючи поточну роботу',
+    p:'Зміна професії зазвичай починається з курсу за свої гроші й надії, що воно підійде. Проба дозволяє спершу подивитися зсередини: кілька годин замість кількох місяців і кількох тисяч.',
+    tag:'Формат на кілька годин, зокрема онлайн' },
+  { k:'noexp',    label:'У мене немає досвіду',
+    h:'Формат створений саме для цього',
+    p:'Проба — це знайомство, а не випробування. Від учасника не чекають вміння: завдання прості, безпечні й виконуються поруч із фахівцем, який пояснює, що відбувається.',
+    tag:'Вимог до навичок немає' },
+  { k:'pause',    label:'Повертаюсь після перерви',
+    h:'Подивитись, що змінилося у сфері',
+    p:'За кілька років інструменти й процеси змінюються, і повертатися наосліп незатишно. Проба дає побачити, як влаштована робота зараз, і поставити питання людині, яка в ній щодня.',
+    tag:'Вікових обмежень у межах 18–35 немає' },
+];
+---
+<div class="switcher">
+  <div class="switcher__bar" role="tablist" aria-label="Оберіть свою ситуацію">
+    {cases.map((c, i) => (
+      <button class="fchip" type="button" role="tab" id={`sw-${c.k}`} aria-controls={`swp-${c.k}`}
+              aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{c.label}</button>
+    ))}
+  </div>
+  {cases.map((c, i) => (
+    <div class="switcher__panel" role="tabpanel" id={`swp-${c.k}`} aria-labelledby={`sw-${c.k}`}
+         tabindex="0" hidden={i !== 0}>
+      <h3>{c.h}</h3>
+      <p>{c.p}</p>
+      <span class="switcher__tag">{c.tag}</span>
+    </div>
+  ))}
+</div>
+
+<script is:inline>
+(function(){
+  var bar = document.querySelector('.switcher__bar[role="tablist"]');
+  if (!bar) return;
+  var tabs = Array.prototype.slice.call(bar.querySelectorAll('[role="tab"]'));
+  function select(i, focus){
+    tabs.forEach(function(t, j){
+      var on = i === j;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) tabs[i].focus();
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ select(i); });
+    t.addEventListener('keydown', function(e){
+      var k = e.key, last = tabs.length - 1, n = null;
+      if (k === 'ArrowRight' || k === 'ArrowDown') n = i === last ? 0 : i + 1;
+      else if (k === 'ArrowLeft' || k === 'ArrowUp') n = i === 0 ? last : i - 1;
+      else if (k === 'Home') n = 0; else if (k === 'End') n = last;
+      if (n !== null){ e.preventDefault(); select(n, true); }
+    });
+  });
+})();
+</script>
