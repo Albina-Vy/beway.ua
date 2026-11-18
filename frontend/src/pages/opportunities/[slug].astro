@@ -16,7 +16,7 @@ const { item } = Astro.props;
     <span class="eyebrow"><span class="dot"></span>{item.category}</span>
     <h1 style="margin-block:var(--s-4) var(--s-5)">{item.title}</h1>
     <p class="lead">{item.summary}</p>
-    <p style="margin-top:var(--s-5)"><span class="badge badge--demo">Демонстраційний напрям — запис ще не відкрито</span></p>
+    <p style="margin-top:var(--s-5)"><span class="badge badge--demo">Демонстраційний напрям, запис ще не відкрито</span></p>
   </div>
 </section>
 
@@ -29,15 +29,15 @@ const { item } = Astro.props;
       <h2>Що робить фахівець</h2>
       <ul class="ticks">{item.dailyWork.map(x => <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>{x}</span></li>)}</ul>
 
-      <h2>Які навички можуть бути корисними</h2>
+      <h2>Корисні навички</h2>
       <ul class="ticks">{item.skills.map(x => <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>{x}</span></li>)}</ul>
 
       <h2>Що побачиш під час проби</h2>
       <ul class="ticks">{item.willSee.map(x => <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>{x}</span></li>)}</ul>
 
-      <h2>Які безпечні завдання можна спробувати</h2>
+      <h2>Що спробуєш</h2>
       <ul class="ticks">{item.safeTasks.map(x => <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>{x}</span></li>)}</ul>
-      <p class="muted" style="font-size:var(--t-sm);margin-top:var(--s-4)">Професійна проба не замінює оплачувану працю. Усі завдання виконуються під наглядом наставника й узгоджуються з компанією до початку.</p>
+      <p class="muted" style="font-size:var(--t-sm);margin-top:var(--s-4)">Усі завдання безпечні й виконуються під наглядом наставника.</p>
 
       <h2>Умови участі</h2>
       <ul class="ticks">{item.eligibility.map(x => <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>{x}</span></li>)}</ul>
@@ -45,20 +45,17 @@ const { item } = Astro.props;
 
       <h2>Хто обирає учасників</h2>
       <p class="muted">
-        Ти заповнюєш форму заявки й за бажанням додаєш посилання на резюме. Ми перевіряємо
-        лише формальну відповідність умовам і передаємо заявку компанії.
-        <strong>Остаточне рішення ухвалює роботодавець</strong> — він виходить із кількості
-        місць у наставника, вимог безпеки на обʼєкті та того, що саме можна показувати стороннім.
-        BEWAY кандидатів не ранжує й на вибір не впливає.
+        Ми перевіряємо, що заявка заповнена, і передаємо її компанії.
+        <strong>Остаточне рішення ухвалює роботодавець.</strong> BEWAY кандидатів не ранжує.
       </p>
       <ul class="ticks">
         <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>Досвід роботи, оцінки й диплом не враховуються</span></li>
-        <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>Резюме необовʼязкове — його відсутність не є мінусом</span></li>
+        <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>Резюме необовʼязкове</span></li>
         <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>Відповідь надходить усім, і в разі відмови теж</span></li>
         <li><svg width="16" height="16" aria-hidden="true"><use href="#i-check"/></svg><span>Відмова не закриває доступ до інших напрямів</span></li>
       </ul>
       <p class="muted" style="font-size:var(--t-sm);margin-top:var(--s-4)">
-        Повний опис етапів відбору — на сторінці <a href="/how-it-works/#selection">Як це працює</a>.
+        <a href="/how-it-works/#selection">Як відбувається відбір</a>
       </p>
 
       <h2>Що підготувати</h2>
@@ -86,7 +83,6 @@ const { item } = Astro.props;
 <section class="section section--tight bg-light">
   <div class="wrap" style="text-align:center">
     <h2 style="font-size:var(--t-h3)">Цікавить інший напрям?</h2>
-    <p class="lead" style="margin:var(--s-4) auto 0;text-align:center">У каталозі є ще кілька демонстраційних прикладів із різних сфер</p>
     <p style="margin-top:var(--s-6)"><a class="btn btn--primary" href="/opportunities/">Переглянути каталог</a></p>
   </div>
 </section>
