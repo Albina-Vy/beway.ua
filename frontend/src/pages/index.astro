@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import { opportunities } from '../data/opportunities';
 import Switcher from '../components/Switcher.astro';
 import ApplyForm from '../components/ApplyForm.astro';
+import InstaPosts from '../components/InstaPosts.astro';
 const featured = opportunities.slice(0, 3);
 ---
 <Base>
@@ -259,6 +260,9 @@ const featured = opportunities.slice(0, 3);
     </div>
   </div>
 </section>
+
+<!-- ===== INSTAGRAM (дизайн із Canva) ===== -->
+<InstaPosts />
 
 <!-- ===== FAQ ===== -->
 <section class="section faq bg-light">

@@ -1,0 +1,45 @@
+---
+// Блок із дизайном «Пости інста», вбудованим із Canva.
+// Щоб замінити дизайн: оновіть designId і shareKey з нового посилання Canva
+// (https://www.canva.com/design/<designId>/<shareKey>/view).
+const designId = 'DAHaFF8zIes';
+const shareKey = '85stmfISvLSGvQwkBkR7VA';
+const base = `https://www.canva.com/design/${designId}/${shareKey}/view`;
+const embedSrc = `${base}?embed`;
+const viewHref = `${base}?utm_content=${designId}&utm_campaign=designshare&utm_medium=embeds&utm_source=link`;
+---
+<section class="section insta" id="instagram">
+  <div class="wrap insta__grid">
+    <div class="rv">
+      <span class="eyebrow"><span class="dot"></span>Instagram</span>
+      <h2 style="margin-top:var(--s-4)">Стежте за BEWAY в Instagram</h2>
+      <p class="lead" style="margin-top:var(--s-5)">Розповідаємо про професії, готуємо перші професійні проби та ділимося новинами проєкту.</p>
+      <div class="hero__btns" style="border:0;padding:0">
+        <a class="btn btn--primary" href="https://www.instagram.com/beway.ukraine/" rel="noopener" target="_blank">Перейти в Instagram</a>
+      </div>
+    </div>
+    <figure class="insta__fig rv">
+      <div class="insta__frame">
+        <iframe
+          loading="lazy"
+          src={embedSrc}
+          title="Пости інста — дизайн BEWAY у Canva"
+          allowfullscreen
+          allow="fullscreen"
+        ></iframe>
+      </div>
+      <figcaption class="insta__cap">
+        <a href={viewHref} target="_blank" rel="noopener">Пости інста</a> · автор: Анастасія Доброгорська
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .insta__grid{display:grid;gap:var(--s-7);align-items:center;grid-template-columns:1fr}
+  @media (min-width:900px){.insta__grid{grid-template-columns:1fr 1fr}}
+  .insta__fig{margin:0;width:100%;max-width:560px;justify-self:center}
+  .insta__frame{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;border-radius:var(--r-lg);border:1px solid var(--line);box-shadow:var(--shadow-2);background:var(--light)}
+  .insta__frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;margin:0}
+  .insta__cap{margin-top:var(--s-3);font-size:var(--t-xs);color:var(--muted);text-align:center}
+</style>
