@@ -1,0 +1,25 @@
+# Копія налаштувань деплою для випадку, коли в Netlify UI
+# вказано Base directory = "frontend". Тоді Netlify читає netlify.toml
+# саме з цієї папки, а не з кореня репозиторію. Без цього файлу
+# Netlify викладає папку без зібраного сайту і показує 404.
+# Тримайте в синхроні з ../netlify.toml.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
+    X-Frame-Options        = "DENY"
+    Permissions-Policy     = "geolocation=(), camera=(), microphone=(), payment=()"
+
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
